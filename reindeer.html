@@ -5,17 +5,182 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <style>
-    body {
-      display: flex;
-      height: 100vh;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-    img {
-      width: 50vh;
-    }
-  </style>
+  :root{
+    /* クリスマスのカラー変数 */
+    --bg-start: #0f2027;  /* 深い緑みの黒 */
+    --bg-mid:   #203a43;  /* ダークグリーン */
+    --bg-end:   #2c5364;  /* 青みダーク */
+    --accent-red:   #e74c3c;
+    --accent-gold:  #ffd166;
+    --accent-green: #2ecc71;
+    --snow: rgba(255,255,255,0.9);
+    --text: #f7f7f7;
+    --muted: #cfd8dc;
+  }
+
+  /* 全体レイアウト・背景グラデーション */
+  body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 2rem 1rem;
+    color: var(--text);
+    background: linear-gradient(135deg, var(--bg-start), var(--bg-mid) 50%, var(--bg-end));
+    font-family: "Segoe UI", "Hiragino Sans", "Yu Gothic", "Meiryo", system-ui, -apple-system, sans-serif;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* 雪アニメーション（3レイヤーで奥行き） */
+  .snow, .snow::before, .snow::after {
+    position: absolute;
+    left: 0;
+    top: -100%;
+    width: 200%;
+    height: 200%;
+    pointer-events: none;
+    background-repeat: repeat;
+    background-image:
+      radial-gradient(2px 2px at 40px 60px, var(--snow) 99%, transparent 0),
+      radial-gradient(3px 3px at 180px 20px, var(--snow) 99%, transparent 0),
+      radial-gradient(2px 2px at 320px 120px, var(--snow) 99%, transparent 0),
+      radial-gradient(4px 4px at 540px 40px, var(--snow) 99%, transparent 0),
+      radial-gradient(2px 2px at 760px 100px, var(--snow) 99%, transparent 0),
+      radial-gradient(3px 3px at 900px 10px, var(--snow) 99%, transparent 0);
+    animation: snowfall 16s linear infinite;
+    opacity: 0.7;
+  }
+  .snow::before {
+    content: "";
+    animation-duration: 22s;
+    opacity: 0.5;
+    filter: blur(1px);
+  }
+  .snow::after {
+    content: "";
+    animation-duration: 28s;
+    opacity: 0.35;
+    filter: blur(2px);
+  }
+  @keyframes snowfall {
+    0%   { transform: translateY(-20%) translateX(0); }
+    100% { transform: translateY(20%)  translateX(-10%); }
+  }
+
+  /* コンテナカード */
+  .card {
+    width: min(900px, 92vw);
+    backdrop-filter: blur(8px) saturate(110%);
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 18px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+    padding: clamp(1rem, 3vw, 2rem);
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* タイトル（きらめき＋ネオン風） */
+  h1 {
+    margin: 0 0 0.5rem;
+    font-size: clamp(2rem, 6vw, 3.2rem);
+    letter-spacing: 0.04em;
+    color: var(--accent-gold);
+    text-shadow:
+      0 0 6px rgba(255, 209, 102, 0.6),
+      0 0 12px rgba(255, 209, 102, 0.45);
+    animation: shimmer 2.8s ease-in-out infinite;
+  }
+  @keyframes shimmer {
+    0%, 100% { filter: drop-shadow(0 0 0 rgba(255,255,255,0)); }
+    50%      { filter: drop-shadow(0 0 10px rgba(255,255,255,0.7)); }
+  }
+
+  /* サブテキスト（フェード＆スライドイン） */
+  p {
+    margin: 0.4rem 0;
+    font-size: clamp(1rem, 2.6vw, 1.2rem);
+    color: var(--muted);
+    line-height: 1.6;
+    opacity: 0;
+    transform: translateY(8px);
+    animation: fadeUp 0.8s ease forwards;
+  }
+  p:nth-of-type(1) { animation-delay: 0.15s; }
+  p:nth-of-type(2) { animation-delay: 0.3s;  }
+  p:nth-of-type(3) { animation-delay: 0.45s; }
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* 画像（軽いバウンス＆ホバーでゆらぎ） */
+  img {
+    width: min(50vh, 70vw);
+    max-width: 520px;
+    border-radius: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    box-shadow:
+      0 12px 28px rgba(0,0,0,0.35),
+      inset 0 0 16px rgba(255,255,255,0.12);
+    animation: bounce 2.6s ease-in-out infinite;
+    transition: transform 0.6s ease, box-shadow 0.6s ease;
+    will-change: transform;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0) rotateZ(0deg); }
+    50%      { transform: translateY(-8px) rotateZ(0.4deg); }
+  }
+  img:hover {
+    transform: scale(1.03) rotateZ(0.6deg);
+    box-shadow: 0 16px 38px rgba(0,0,0,0.45);
+  }
+
+  /* クリスマスのアクセントライン */
+  .divider {
+    width: 100%;
+    height: 3px;
+    margin: 1rem auto 1.2rem;
+    background:
+      linear-gradient(90deg,
+        var(--accent-red),
+        var(--accent-gold),
+        var(--accent-green),
+        var(--accent-gold),
+        var(--accent-red));
+    background-size: 200% 100%;
+    animation: stripe 5s linear infinite;
+    border-radius: 999px;
+    opacity: 0.85;
+  }
+  @keyframes stripe {
+    0%   { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+  }
+
+  /* フッターメッセージ用の小さめテキスト */
+  .note {
+    font-size: 0.95rem;
+    color: #e8f1f8;
+    opacity: 0.9;
+  }
+
+  /* アクセシビリティ配慮：画像のフォーカス時にもホバー効果 */
+  img:focus {
+    outline: 2px dashed var(--accent-gold);
+    outline-offset: 6px;
+    transform: scale(1.03) rotateZ(0.6deg);
+  }
+
+  /* レスポンシブ微調整 */
+  @media (max-width: 560px) {
+    .card { padding: 1rem; }
+    p { font-size: 1rem; }
+  }
+</style>
 </head>
 <body>
   <h1>トナカイ！</h1>
