@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>クリスマス警察</title>
   <style>
     body {
       display: flex;
@@ -11,16 +11,57 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      background: linear-gradient(135deg, #ffecd2, #fcb69f);
+      font-family: "Yu Gothic", sans-serif;
+      animation: fadeIn 1.5s ease;
     }
+
+    h1 {
+      font-size: 3rem;
+      color: #d62828;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+      animation: pop 0.8s ease-out;
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin: 10px 0;
+      color: #333;
+      animation: slideUp 1s ease;
+    }
+
     img {
-      width: 50vh;
+      width: 45vh;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    /* --- Animations --- */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes pop {
+      0% { transform: scale(0.5); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      0% { transform: translateY(20px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
     }
   </style>
 </head>
 <body>
-  <h1>クリスマス警察！</h1>
+  <h1>🎄 クリスマス警察！ 🎄</h1>
   <p>悪い夢を取り締まる任務を与えましょう</p>
-  <img src="./images/keisatsu.png" alt="">
+  <img src="./images/keisatsu.png" alt="クリスマス警察のイラスト">
   <p>一人選んで逮捕できます！</p>
   <p>緊急呼び出しのため、帰ったらおとなしく自宅待機しましょう</p>
 </body>

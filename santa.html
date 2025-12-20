@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>サンタクロース！</title>
   <style>
     body {
       display: flex;
@@ -11,20 +11,64 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      background: linear-gradient(135deg, #ffecd2, #fcb69f);
+      font-family: "Yu Gothic", sans-serif;
+      animation: fadeIn 1.5s ease;
+      text-align: center;
+      padding: 0 20px;
     }
+
+    h1 {
+      font-size: 3rem;
+      color: #d62828;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+      animation: pop 0.8s ease-out;
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin: 10px 0;
+      color: #333;
+      animation: slideUp 1s ease;
+      line-height: 1.6;
+    }
+
     img {
-      width: 50vh;
+      width: 45vh;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    /* --- Animations --- */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes pop {
+      0% { transform: scale(0.5); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      0% { transform: translateY(20px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
     }
   </style>
 </head>
 <body>
-  <h1>サンタクロース！</h1>
+  <h1>🎅 サンタクロース！ 🎅</h1>
   <p>あなたは本日の主役です！</p>
-  <img src="./images/santa_claus_front.png" alt="">
-  <p>会場の皆さんにひとつずつお願いができます！(過剰なものはやめてネ！)</p>
-  <p>今日一日、語尾に「サンタ！」をつけてください
-    (例：「お疲れ様サンタ！」「ありがとうございますサンタ！」など)
+  <img src="./images/santa_claus_front.png" alt="サンタクロースのイラスト">
+  <p>会場の皆さんにひとつずつお願いができます！<br>(過剰なものはやめてネ！)</p>
+  <p>
+    今日一日、語尾に「サンタ！」をつけてください<br>
+    <small>(例：「お疲れ様サンタ！」「ありがとうございますサンタ！」など)</small>
   </p>
-
 </body>
 </html>
