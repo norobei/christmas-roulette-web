@@ -4,18 +4,208 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <style>
-    body {
-      display: flex;
-      height: 100vh;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-    img {
-      width: 50vh;
-    }
-  </style>
+  
+<style>
+  :root {
+    /* 祝祭感のカラーパレット */
+    --bg-start: #1b1f3b;  /* 夜空の紺 */
+    --bg-mid:   #283f66;  /* 深い青 */
+    --bg-end:   #3a6ea5;  /* 明るめの青 */
+    --accent-red:   #ff4d4d;
+    --accent-gold:  #ffd166;
+    --accent-green: #2ecc71;
+    --accent-blue:  #60a5fa;
+    --text: #f7f7f7;
+    --muted: #e5eef7;
+  }
+
+  /* ベースレイアウト＋背景 */
+  body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 2rem 1rem;
+    color: var(--text);
+    background: radial-gradient(1200px 800px at 50% -10%, #224e82 0%, transparent 35%),
+                linear-gradient(135deg, var(--bg-start), var(--bg-mid) 55%, var(--bg-end));
+    font-family: "Segoe UI", "Hiragino Sans", "Yu Gothic", "Meiryo", system-ui, -apple-system, sans-serif;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* 紙吹雪コンフェッティ（3レイヤー） */
+  .confetti, .confetti::before, .confetti::after {
+    position: absolute;
+    inset: -20% -10% auto -10%;
+    height: 160%;
+    pointer-events: none;
+    background-repeat: repeat;
+    background-size: 400px 400px;
+    background-image:
+      radial-gradient(4px 4px at 30px 60px, var(--accent-red) 99%, transparent 0),
+      radial-gradient(4px 4px at 160px 20px, var(--accent-gold) 99%, transparent 0),
+      radial-gradient(4px 4px at 280px 120px, var(--accent-green) 99%, transparent 0),
+      radial-gradient(4px 4px at 360px 40px, var(--accent-blue) 99%, transparent 0),
+      radial-gradient(4px 4px at 80px 300px, #fff 99%, transparent 0);
+    animation: fall 12s linear infinite;
+    opacity: 0.75;
+  }
+  .confetti::before {
+    content: "";
+    animation-duration: 18s;
+    transform: translateX(-10%);
+    filter: blur(0.6px);
+    opacity: 0.6;
+  }
+  .confetti::after {
+    content: "";
+    animation-duration: 24s;
+    transform: translateX(8%);
+    filter: blur(1.2px);
+    opacity: 0.45;
+  }
+  @keyframes fall {
+    0%   { transform: translateY(-10%) rotate(0deg); }
+    100% { transform: translateY(30%)  rotate(8deg); }
+  }
+
+  /* コンテンツカード */
+  .card {
+    width: min(900px, 92vw);
+    backdrop-filter: blur(8px) saturate(110%);
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 22px;
+    box-shadow: 0 10px 36px rgba(0,0,0,0.35);
+    padding: clamp(1rem, 3vw, 2rem);
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* タイトル（きらめき＋祝福のグラデーション） */
+  h1 {
+    margin: 0 0 0.6rem;
+    font-size: clamp(2.2rem, 6.2vw, 3.4rem);
+    letter-spacing: 0.03em;
+    background: linear-gradient(90deg, var(--accent-gold), #fff, var(--accent-gold));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 16px rgba(255, 209, 102, 0.35);
+    animation: twinkle 2.6s ease-in-out infinite;
+  }
+  @keyframes twinkle {
+    0%, 100% { filter: drop-shadow(0 0 0 rgba(255,255,255,0)); }
+    50%      { filter: drop-shadow(0 0 10px rgba(255,255,255,0.7)); }
+  }
+
+  /* サブテキスト（フェード＆スライド） */
+  p {
+    margin: 0.5rem 0;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    color: var(--muted);
+    line-height: 1.7;
+    opacity: 0;
+    transform: translateY(8px);
+    animation: fadeUp 0.8s ease forwards;
+  }
+  p:nth-of-type(1) { animation-delay: 0.15s; }
+  p:nth-of-type(2) { animation-delay: 0.3s;  }
+  p:nth-of-type(3) { animation-delay: 0.45s; }
+  p:nth-of-type(4) { animation-delay: 0.6s;  }
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* 画像（ふわっと浮く＋プレゼントの輝き） */
+  img {
+    width: min(50vh, 70vw);
+    max-width: 520px;
+    border-radius: 18px;
+    border: 2px solid rgba(255,255,255,0.3);
+    box-shadow:
+      0 12px 28px rgba(0,0,0,0.35),
+      inset 0 0 18px rgba(255,255,255,0.12);
+    animation: float 3.6s ease-in-out infinite;
+    transition: transform 0.6s ease, box-shadow 0.6s ease, filter 0.6s ease;
+    will-change: transform, filter;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotateZ(0deg); }
+    50%      { transform: translateY(-10px) rotateZ(0.3deg); }
+  }
+  /* 画像の周りにリボンのような光彩 */
+  .glow {
+    position: relative;
+  }
+  .glow::after {
+    content: "";
+    position: absolute;
+    inset: -10px;
+    border-radius: 22px;
+    pointer-events: none;
+    background:
+      conic-gradient(from 0deg,
+        rgba(255,77,77,0.2),
+        rgba(255,209,102,0.28),
+        rgba(96,165,250,0.22),
+        rgba(46,204,113,0.24),
+        rgba(255,77,77,0.2));
+    filter: blur(10px);
+    animation: rotateHue 8s linear infinite;
+  }
+  @keyframes rotateHue {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  img:hover, img:focus {
+    transform: scale(1.03) rotateZ(0.6deg);
+    box-shadow: 0 16px 38px rgba(0,0,0,0.45);
+    outline: 2px dashed var(--accent-gold);
+    outline-offset: 8px;
+  }
+
+  /* アクセントライン */
+  .divider {
+    width: 100%;
+    height: 3px;
+    margin: 1rem auto 1.2rem;
+    background:
+      linear-gradient(90deg,
+        var(--accent-red),
+        var(--accent-gold),
+        var(--accent-green),
+        var(--accent-blue),
+        var(--accent-gold),
+        var(--accent-red));
+    background-size: 200% 100%;
+    animation: stripe 5s linear infinite;
+    border-radius: 999px;
+    opacity: 0.9;
+  }
+  @keyframes stripe {
+    0%   { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+  }
+
+  /* フッターメモ */
+  .note {
+    font-size: 0.95rem;
+    color: #e8f1f8;
+    opacity: 0.9;
+  }
+
+  /* レスポンシブ微調整 */
+  @media (max-width: 560px) {
+    .card { padding: 1rem; }
+    p { font-size: 1rem; }
+  }
+</style>
+
 </head>
 <body>
   <h1>おめでとう！</h1>
